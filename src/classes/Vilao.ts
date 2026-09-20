@@ -1,21 +1,22 @@
+import { Utilidade } from "./Utilidade.ts";
+
 export class Vilao {
     constructor(
-        public nome: string,
-        public vida: number,
-        public ataque: number,
-        public defesa: number,
+        private _nome: string,
+        private _vida: number,
+        private _ataque: number,
+        private _defesa: number,
     ) { };
-     atacar(): number {
-        const danoInfligido: number = Math.floor(Math.random() * this.ataque);
-        return danoInfligido;
+    public atacar(): number {
+        return Utilidade.randomizar(this._ataque);
     };
-    sofrerAtaque(danoRecebido: number): void {
-        if (danoRecebido > this.defesa) {
-            this.vida -= danoRecebido - this.defesa;
+    public sofrerAtaque(danoRecebido: number): void {
+        if (danoRecebido > this._defesa) {
+            this._vida -= danoRecebido - this._defesa;
         };
     };
-    estaMorto(): boolean {
-        if (this.vida <= 0) {
+    public estaMorto(): boolean {
+        if (this._vida <= 0) {
             return true;
         } else {
             return false;
