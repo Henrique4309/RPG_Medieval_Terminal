@@ -1,9 +1,9 @@
 export type NomeAtributo =
-  | "forca"
-  | "resistencia"
-  | "agilidade"
-  | "inteligencia"
-  | "oratoria"
-  | "fe";
+  | "Forca"
+  | "Resistencia"
+  | "Agilidade"
+  | "Inteligencia"
+  | "Oratoria"
+  | "Fe";
 
 export type Atributos = Record<NomeAtributo, number>;

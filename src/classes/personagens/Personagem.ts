@@ -1,44 +1,32 @@
-import { TipoCriatura } from "../../tipos/TipoCriatura.ts";
+import { Atributos } from "../../tipos/Atributos.ts";
+import { TipoPersonagem } from "../../tipos/TipoPersonagem.ts";
 import { GerenciadorAtributos } from "../GerenciadorAtributos.ts";
+import { RecursoVital } from "../RecursoVital.ts";
 
-export class Personagem {
+export abstract class Personagem {
 
-    protected _vida: number;
+    protected _recursoVital: RecursoVital;
     protected _atributos: GerenciadorAtributos;
+    protected _pontosAcao: number = 10;
 
     constructor(
-        protected _nome: string,
-        protected _tipoCriatura: TipoCriatura,
+        readonly _nome: string,
+        readonly _tipo: TipoPersonagem,
+        atributos: Atributos,
+        protected _mortoVivo: boolean = false
     ) {
-        this._atributos = new GerenciadorAtributos({
-            forca: 10,
-            resistencia: 10,
-            agilidade: 10,
-            inteligencia: 10,
-            oratoria: 10,
-            fe: 10
-        });
-        this._vida = this._atributos.vidaMaxima();
+        this._atributos = new GerenciadorAtributos(atributos);
+        this._recursoVital = new RecursoVital(this._atributos.recursoVitalMaximo());
     };
 
-    public curar(qtd: number) {
-        this._vida = Math.min(this._vida + qtd, this._atributos.vidaMaxima());
-    };
-
-    public receberDano(qtd: number) {
-        this._vida = Math.max(this._vida - qtd, 0);
-    };
+    public abstract atacar(oponente: Personagem): void;
+    public abstract contraAtacar(oponente: Personagem): void;
+    public abstract sofrerAtaque(dano: number): void;
 
     public passarTurno() {
         this._atributos.passarTurno();
-        this._vida = Math.min(this._vida, this._atributos.vidaMaxima());
+        this._pontosAcao = Math.min(this._pontosAcao + 10, 15);
+        this._recursoVital.setMaximo = Math.min(this._recursoVital.valorAtual, this._atributos.recursoVitalMaximo());
     };
 
-    public get nome(): string {
-        return this._nome;
-    };
-
-    public get tipoCriatura(): string {
-        return this._tipoCriatura;
-    };
 };

@@ -2,6 +2,7 @@ import { NomeAtributo, Atributos } from "../tipos/Atributos.ts";
 import { Bonus } from "../tipos/Bonus.ts";
 
 export class GerenciadorAtributos {
+
     private base: Atributos;
     private bonus: Bonus[] = [];
 
@@ -54,7 +55,8 @@ export class GerenciadorAtributos {
             .filter(bonus => bonus.turnos === undefined || bonus.turnos > 0);
     };
 
-    public vidaMaxima(): number {
-        return this.valorReal("resistencia") * 3;
+    public recursoVitalMaximo(): number {
+        return this.valorReal("Resistencia") * 3;
     };
+
 };
