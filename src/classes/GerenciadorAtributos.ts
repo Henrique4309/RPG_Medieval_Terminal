@@ -12,6 +12,13 @@ export class GerenciadorAtributos {
         private minimo = 0
     ) {
         this.base = { ...atributosIniciais };
+        for (const nome of Object.keys(this.base) as NomeAtributo[]) {
+            this.base[nome] = this.limitarAtributos(this.base[nome]);
+        }
+    };
+
+    private limitarAtributos(valor: number): number {
+        return Math.min(Math.max(valor, this.minimo), this.maximo);
     };
 
     public valorBase(nome: NomeAtributo): number {
@@ -23,19 +30,11 @@ export class GerenciadorAtributos {
             .filter(bonus => bonus.atributo === nome)
             .reduce((soma, bonus) => soma + bonus.valor, 0);
 
-        return Math.min(
-            Math.max(
-                this.base[nome] + totalBonus, this.minimo
-            ), this.maximo
-        );
+        return this.limitarAtributos(this.base[nome] + totalBonus);
     };
 
     public aprimorarBase(nome: NomeAtributo, qtd: number): void {
-        this.base[nome] = Math.min(
-            Math.max(
-                this.base[nome] + qtd, this.minimo
-            ), this.maximo
-        );
+        this.base[nome] = this.limitarAtributos(this.base[nome] + qtd);
     };
 
     public adicionarBonus(bonus: Bonus): void {
@@ -48,8 +47,8 @@ export class GerenciadorAtributos {
 
     public passarTurno(): void {
         this.bonus = this.bonus
-            .map(bonus => (bonus.turnos !== undefined 
-                ? { ...bonus, turnos: bonus.turnos - 1 } 
+            .map(bonus => (bonus.turnos !== undefined
+                ? { ...bonus, turnos: bonus.turnos - 1 }
                 : bonus
             ))
             .filter(bonus => bonus.turnos === undefined || bonus.turnos > 0);

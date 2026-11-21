@@ -5,7 +5,7 @@ import { RecursoVital } from "../RecursoVital.ts";
 
 export abstract class Personagem {
 
-    protected _recursoVital: RecursoVital;
+    protected _vida: RecursoVital;
     protected _atributos: GerenciadorAtributos;
     protected _pontosAcao: number = 10;
 
@@ -16,7 +16,7 @@ export abstract class Personagem {
         protected _mortoVivo: boolean = false
     ) {
         this._atributos = new GerenciadorAtributos(atributos);
-        this._recursoVital = new RecursoVital(this._atributos.recursoVitalMaximo());
+        this._vida = new RecursoVital(this._atributos.recursoVitalMaximo());
     };
 
     public abstract atacar(oponente: Personagem): void;
@@ -26,7 +26,7 @@ export abstract class Personagem {
     public passarTurno() {
         this._atributos.passarTurno();
         this._pontosAcao = Math.min(this._pontosAcao + 10, 15);
-        this._recursoVital.setMaximo = Math.min(this._recursoVital.valorAtual, this._atributos.recursoVitalMaximo());
+        this._vida.setMaximo = this._atributos.recursoVitalMaximo();
     };
 
 };

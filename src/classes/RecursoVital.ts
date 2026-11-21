@@ -23,6 +23,7 @@ export class RecursoVital {
 
     public set setMaximo(qtd: number) {
         this._maximo = qtd;
+        this._valorAtual = Math.min(this._valorAtual, this._maximo);
     };
 
 };
